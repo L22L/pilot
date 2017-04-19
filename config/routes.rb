@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+
+  root  'static_pages#home'
   devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get "login" => "sessions#new"
+  post "login" => "sessions#create"
+  delete "logout" => "sessions#destroy"
+  get "signup" => "users#new"
+  namespace :admin do
+    resources :users, only: [:edit, :destroy]
+    resources :books, only: :create
+    resources :lessons, only: :create
+    resources :words, only: :create
+  end
+  resources :books, only: :show
+  resources :lessons, only: :show
+  resources :words, only: :show
 end
